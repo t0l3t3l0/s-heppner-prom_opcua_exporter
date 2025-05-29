@@ -1,4 +1,4 @@
-name: Build Windows EXE
+name: Build and Commit Windows EXE
 
 on:
   push:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -24,12 +26,19 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Build EXE
+      - name: Build EXE with PyInstaller
         run: |
           pyinstaller --onefile exporter.py
 
-      - name: Upload EXE as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: prometheus_opcua_exporter
-          path: dist/exporter.exe
+      - name: Move EXE to build_output/
+        run: |
+          mkdir bin -Force
+          move dist\exporter.exe bin\prometheus_opcua_exporter.exe -Force
+
+      - name: Commit built EXE back to repo
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add build_output/prometheus_opcua_exporter.exe
+          git commit -m "Add built EXE [skip ci]" || echo "No changes to commit"
+          git push
