@@ -32,8 +32,8 @@ jobs:
 
       - name: Move EXE to build_output/
         run: |
-          mkdir bin -Force
-          move dist\opcua_exporter.exe bin\opcua_exporter.exe -Force
+          mkdir build_output -Force
+          move dist\opcua_exporter.exe build_output\opcua_exporter.exe -Force
 
       - name: Commit built EXE back to repo
         run: |
