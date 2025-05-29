@@ -28,12 +28,12 @@ jobs:
 
       - name: Build EXE with PyInstaller
         run: |
-          pyinstaller --onefile exporter.py
+          pyinstaller --onefile opcua_exporter.py
 
       - name: Move EXE to build_output/
         run: |
           mkdir bin -Force
-          move dist\exporter.exe bin\prometheus_opcua_exporter.exe -Force
+          move dist\opcua_exporter.exe bin\opcua_exporter.exe -Force
 
       - name: Commit built EXE back to repo
         run: |
