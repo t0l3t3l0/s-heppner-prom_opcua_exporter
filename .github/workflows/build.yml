@@ -33,7 +33,7 @@ jobs:
       - name: Move EXE to build_output/
         run: |
           mkdir build_output -Force
-          move dist\prometheus_opcua_exporter.exe build_output\prometheus_opcua_exporter.exe -Force
+          move dist\opcua_exporter.exe build_output\opcua_exporter.exe -Force
 
       - name: Commit built EXE back to repo
         run: |
